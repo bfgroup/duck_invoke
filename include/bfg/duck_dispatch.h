@@ -25,7 +25,16 @@ namespace bfg
 			}
 		};
 
-		static duck_invoke_detail::duck_invoke_t duck_invoke;
+		template <class T>
+		struct duck_invoke_value_t
+		{
+			static constexpr T value{};
+		};
+
+		template <class T>
+		constexpr T duck_invoke_value_t<T>::value;
+
+		static constexpr auto &duck_invoke = duck_invoke_value_t<duck_invoke_t>::value;
 	} // namespace duck_invoke_detail
 
 	using duck_invoke_detail::duck_invoke;
