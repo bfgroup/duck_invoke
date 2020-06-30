@@ -8,7 +8,7 @@ http://www.boost.org/LICENSE_1_0.txt)
 #ifndef MYLIB_H
 #define MYLIB_H
 
-#include <bfg/duck_dispatch.h>
+#include <bfg/tag_invoke.h>
 #include <iostream>
 
 namespace mylib
