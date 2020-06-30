@@ -1,11 +1,16 @@
-#|
+/*
 Copyright René FerdinandRivera Morell 2020
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.txt or copy at
 http://www.boost.org/LICENSE_1_0.txt)
-|#
+*/
 
-import testing ;
+extern void print_one();
+extern void print_two();
 
-run otherlib.cpp ;
-exe tu_one_two : tu_one.cpp tu_two.cpp tu_main.cpp ;
+int main()
+{
+	print_one();
+	print_two();
+	return 0;
+}

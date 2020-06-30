@@ -9,5 +9,6 @@ project
 	: requirements
 		<include>include
 		<cxxstd>11
+		<warnings>all
 	: build-dir .build
 	;
