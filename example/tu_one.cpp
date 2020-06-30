@@ -13,7 +13,7 @@ namespace otherlib
 	struct one
 	{
 	private:
-		friend int duck_invoke(mylib::foo_t, const one &x)
+		friend int tag_invoke(mylib::foo_t, const one &x)
 		{
 			return x.value;
 		}

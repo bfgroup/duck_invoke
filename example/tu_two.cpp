@@ -15,7 +15,7 @@ namespace otherlib
 		two(const char *v) : value(v) {}
 
 	private:
-		friend std::string duck_invoke(mylib::foo_t, const two &x)
+		friend std::string tag_invoke(mylib::foo_t, const two &x)
 		{
 			return x.value;
 		}

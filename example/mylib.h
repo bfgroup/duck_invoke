@@ -17,9 +17,9 @@ namespace mylib
 	{
 		template <typename T>
 		auto operator()(const T &x) const
-			-> bfg::duck_invoke_result_t<foo_t, const T &>
+			-> bfg::tag_invoke_result_t<foo_t, const T &>
 		{
-			return bfg::duck_invoke(*this, x);
+			return bfg::tag_invoke(*this, x);
 		}
 	};
 	static foo_t foo;
