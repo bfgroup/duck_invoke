@@ -8,4 +8,5 @@ http://www.boost.org/LICENSE_1_0.txt)
 import testing ;
 
 run otherlib.cpp ;
-exe tu_one_two : tu_one.cpp tu_two.cpp tu_main.cpp ;
+lib tu_one_two : tu_one.cpp tu_two.cpp ;
+run tu_main.cpp tu_one_two ;

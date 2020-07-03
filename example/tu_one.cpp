@@ -18,7 +18,7 @@ namespace otherlib
 			return x.value;
 		}
 
-		int value = 13;
+		int value = 1;
 	};
 } // namespace otherlib
 

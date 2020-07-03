@@ -13,16 +13,7 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 namespace mylib
 {
-	struct foo_t
-	{
-		template <typename T>
-		auto operator()(const T &x) const
-			-> bfg::tag_invoke_result_t<foo_t, const T &>
-		{
-			return bfg::tag_invoke(*this, x);
-		}
-	};
-	static foo_t foo;
+	BFG_TAG_INVOKE_DEF(foo);
 } // namespace mylib
 
 template <typename T>
