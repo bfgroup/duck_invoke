@@ -65,23 +65,20 @@ namespace bfg
 				bool, noexcept(tag_invoke_detail::tag_invoke_check<Tag, Args...>(0))>::value;
 	};
 
-	namespace tag_invoke_detail
+	template <typename Tag>
+	struct tag
 	{
-		template <typename Tag>
-		struct tag_t
+		template <typename... Args>
+		constexpr auto operator()(Args &&... args) const
+			noexcept(::bfg::tag_invoke_is_nothrow<Tag, decltype(args)...>::value)
+			-> ::bfg::tag_invoke_result_t<Tag, decltype(args)...>
 		{
-			template <typename... Args>
-			constexpr auto operator()(Args &&... args) const
-				noexcept(::bfg::tag_invoke_is_nothrow<Tag, decltype(args)...>::value)
-				-> ::bfg::tag_invoke_result_t<Tag, decltype(args)...>
-			{
-				return ::bfg::tag_invoke(*static_cast<const Tag*>(this), ::std::forward<Args>(args)...);
-			}
-		};
-	}
+			return ::bfg::tag_invoke(*static_cast<const Tag*>(this), ::std::forward<Args>(args)...);
+		}
+	};
 
 	#define BFG_TAG_INVOKE_DEF(Tag) \
-		static struct Tag ## _t final : ::bfg::tag_invoke_detail::tag_t<Tag ## _t> {} \
+		static struct Tag ## _t final : ::bfg::tag<Tag ## _t> {} \
 		const &Tag = ::bfg::tag_invoke_v(Tag ## _t{})
 
 } // namespace bfg
