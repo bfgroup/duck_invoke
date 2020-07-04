@@ -8,18 +8,14 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include "mylib.h"
 #include <string>
 
-namespace otherlib
+namespace otherlib {
+struct one
 {
-	struct one
-	{
-	private:
-		friend int tag_invoke(mylib::foo_t, const one &x)
-		{
-			return x.value;
-		}
+private:
+	friend int tag_invoke(mylib::foo_t, const one & x) { return x.value; }
 
-		int value = 1;
-	};
+	int value = 1;
+};
 } // namespace otherlib
 
 void print_one()

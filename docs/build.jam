@@ -5,10 +5,10 @@ Distributed under the Boost Software License, Version 1.0.
 http://www.boost.org/LICENSE_1_0.txt)
 |#
 
-project
-	: requirements
-		<include>include
-		# <cxxstd>11
-		<warnings>all
-	: build-dir .build
-	;
+using asciidoctor ;
+
+html index.html : index.adoc ;
+
+install html
+    :   index.html
+    :   <location>. ;

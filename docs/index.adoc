@@ -1,0 +1,60 @@
+= Duck Dispatch -- A C++11 Tag Invoke Utility
+:copyright: Copyright 2020 René Ferdinand Rivera Morell
+:version-label!:
+:reproducible:
+:nofooter:
+:sectanchors:
+:sectnums:
+:sectnumlevels: 5
+:icons: font
+:source-highlighter: pygments
+:source-language: c++
+:toc: left
+:toclevels: 5
+:caution-caption: ⚑
+:important-caption: ‼
+:note-caption: ℹ
+:tip-caption: ☀
+:warning-caption: ⚠
+:CPP: C++
+:PP: ++
+:P: +
+
+ifdef::backend-html5[]
+++++
+<style>
+include::std.css[]
+#toctitle {
+	padding: 400px 0 0 0;
+	background: url(logo-color-300.png) no-repeat center/90%;
+	height: 0;
+	overflow: hidden;
+}
+</style>
+++++
+endif::[]
+
+// include::../README.adoc[tag=intro]
+
+== License
+
+// include::../README.adoc[tag=license]
+
+== Features
+
+// include::../README.adoc[tag=features]
+
+== Using
+
+// include::../README.adoc[tag=using]
+
+== Reference
+
+:leveloffset: +2
+
+include::../include/bfg/tag_invoke.h[tag=reference]
+
+:leveloffset: -2
+
+== Origins
+

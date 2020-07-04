@@ -11,13 +11,12 @@ http://www.boost.org/LICENSE_1_0.txt)
 #include <bfg/tag_invoke.h>
 #include <iostream>
 
-namespace mylib
-{
-	BFG_TAG_INVOKE_DEF(foo);
+namespace mylib {
+BFG_TAG_INVOKE_DEF(foo);
 } // namespace mylib
 
 template <typename T>
-bool print_foo(const T &v)
+bool print_foo(const T & v)
 {
 	std::cout << mylib::foo(v) << "\n";
 	return true;
