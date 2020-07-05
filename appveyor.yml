@@ -21,8 +21,8 @@ skip_commits:
 
 environment:
   matrix:
-  - { job_name: 'VS 2015', COMPILER: "MSVC", VSWHERE_LEGACY: '[14.0,15.0)', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
-      TOOLSET: 'msvc', TOOLSET_VERSION: '14.0' }
+  # - { job_name: 'VS 2015', COMPILER: "MSVC", VSWHERE_LEGACY: '[14.0,15.0)', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
+  #     TOOLSET: 'msvc', TOOLSET_VERSION: '14.0' }
   - { job_name: 'MinGW-w64 7.3', COMPILER: "WIN-MINGW", CXXPATH: 'C:\\mingw-w64\\x86_64-7.3.0-posix-seh-rt_v5-rev0\\mingw64\\bin', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
       TOOLSET: 'gcc' }
   - { job_name: 'MinGW-w64 6.3', COMPILER: "WIN-MINGW", CXXPATH: 'C:\\mingw-w64\\x86_64-6.3.0-posix-seh-rt_v5-rev1\\mingw64\\bin', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
