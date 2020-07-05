@@ -1,0 +1,78 @@
+# Copyright René Ferdinand Rivera Morell 2019-2020
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+
+branches:
+  only:
+  - develop
+  - master
+  - /feature[/].*/
+
+skip_commits:
+  files:
+    - .circleci/*
+    - .drone.star
+    - .github/workflows/*
+    - .semaphore/*
+    - .travis.yml
+    - azure-pipelines.yml
+
+environment:
+  matrix:
+  - { job_name: 'VS 2015', COMPILER: "MSVC", VSWHERE_LEGACY: '[14.0,15.0)', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
+      TOOLSET: 'msvc', TOOLSET_VERSION: '14.0' }
+  - { job_name: 'MinGW-w64 7.3', COMPILER: "WIN-MINGW", CXXPATH: 'C:\\mingw-w64\\x86_64-7.3.0-posix-seh-rt_v5-rev0\\mingw64\\bin', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
+      TOOLSET: 'gcc' }
+  - { job_name: 'MinGW-w64 6.3', COMPILER: "WIN-MINGW", CXXPATH: 'C:\\mingw-w64\\x86_64-6.3.0-posix-seh-rt_v5-rev1\\mingw64\\bin', APPVEYOR_BUILD_WORKER_IMAGE: 'Visual Studio 2015',
+      TOOLSET: 'gcc' }
+
+for:
+- matrix:
+    only:
+      - COMPILER: 'MSVC'
+  install:
+    - cmd: |
+        choco install vswhere
+        cd "%APPVEYOR_BUILD_FOLDER%/.."
+        curl "https://github.com/boostorg/build/archive/develop.zip" -L -o b2.zip
+        7z x b2.zip
+        cd build-develop
+        bootstrap.bat
+        b2.exe install -d0 b2-install-layout=portable --prefix=%APPVEYOR_BUILD_FOLDER%/../bin
+        echo using %TOOLSET% ^: %TOOLSET_VERSION% ^; > %HOMEDRIVE%%HOMEPATH%/user-config.jam
+        cd "%APPVEYOR_BUILD_FOLDER%"
+  build_script:
+    - cmd: |
+        echo .
+  test_script:
+    - cmd: |
+        echo TEST..
+        CALL .ci/windows-msvc-setup.cmd
+        %APPVEYOR_BUILD_FOLDER%/../bin/b2.exe --debug-configuration toolset=%TOOLSET% examples
+- matrix:
+    only:
+      - COMPILER: 'WIN-MINGW'
+  install:
+    - cmd: |
+        choco install vswhere
+        cd "%APPVEYOR_BUILD_FOLDER%/.."
+        curl "https://github.com/boostorg/build/archive/develop.zip" -L -o b2.zip
+        7z x b2.zip
+        cd build-develop
+        set CXX_S=%CXX%
+        set CXX=
+        bootstrap.bat
+        set CXX=%CXX_S%
+        b2.exe install -d0 b2-install-layout=portable --prefix=%APPVEYOR_BUILD_FOLDER%/../bin
+        echo using %TOOLSET% ^: %TOOLSET_VERSION% ^; > %HOMEDRIVE%%HOMEPATH%/user-config.jam
+        cd "%APPVEYOR_BUILD_FOLDER%"
+  build_script:
+    - cmd: |
+        echo .
+  test_script:
+    - cmd: |
+        echo TEST..
+        set PATH=%CXXPATH%;%PATH%
+        %APPVEYOR_BUILD_FOLDER%/../bin/b2.exe --debug-configuration toolset=%TOOLSET% examples
