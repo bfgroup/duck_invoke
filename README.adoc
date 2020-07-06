@@ -1,0 +1,29 @@
+= Duck Invoke
+
+// tag::intro[]
+
+[.tagline]
+A simple to use, single header, `tag_invoke` utility for C++11.
+
+[horizontal.shields]
+Obtain:: image:https://img.shields.io/github/downloads/bfgroup/duck_invoke/total.svg?label=GitHub[GitHub All Releases, link="https://github.com/bfgroup/Lyra/releases"]
+License:: image:https://img.shields.io/badge/license-BSL%201.0-blue.svg["Boost Software License 1.0", link="LICENSE.txt"]
+Standards:: image:https://img.shields.io/badge/standard-PFL-orange.svg["Pitchfork Layout", link="https://github.com/vector-of-bool/pitchfork"]
+image:https://img.shields.io/badge/standard-C%2B%2B%2011-blue.svg?logo=C%2B%2B["C\+\+ 11", link="https://isocpp.org/"]
+image:https://img.shields.io/badge/standard-C%2B%2B%2014-blue.svg?logo=C%2B%2B["C\+\+ 14", link="https://isocpp.org/"]
+image:https://img.shields.io/badge/standard-C%2B%2B%2017-blue.svg?logo=C%2B%2B["C\+\+ 17", link="https://isocpp.org/"]
+image:https://img.shields.io/badge/standard-C%2B%2B%2020-blue.svg?logo=C%2B%2B["C\+\+ 20", link="https://isocpp.org/"]
+Stats:: image:https://img.shields.io/github/languages/code-size/bfgroup/duck_invoke.svg[GitHub code size in bytes, link="https://github.com/bfgroup/duck_invoke"]
+image:https://img.shields.io/github/issues/bfgroup/duck_invoke.svg[GitHub issues, link="https://github.com/bfgroup/duck_invoke/issues"]
+image:https://img.shields.io/github/stars/bfgroup/duck_invoke.svg?label=%E2%98%85[GitHub stars, link="https://github.com/bfgroup/duck_invoke/stargazers"]
+
+// end::intro[]
+
+== License
+
+// tag::license[]
+
+Distributed under the Boost Software License, Version 1.0. (See accompanying
+file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+// end::license[]

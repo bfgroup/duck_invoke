@@ -1,4 +1,9 @@
-= Duck Dispatch -- A C++11 Tag Invoke Utility
+// Copyright René Ferdinand Rivera Morell 2020
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE.txt or copy at
+// http://www.boost.org/LICENSE_1_0.txt)
+
+= Duck Invoke -- tag_invoke for C++11
 :copyright: Copyright 2020 René Ferdinand Rivera Morell
 :version-label!:
 :reproducible:
@@ -26,25 +31,26 @@ ifdef::backend-html5[]
 include::std.css[]
 #toctitle {
 	padding: 400px 0 0 0;
-	background: url(logo-color-300.png) no-repeat center/90%;
+	background: url(duck-logo-300px.png) no-repeat center/90%;
 	height: 0;
 	overflow: hidden;
+	text-align: center;
 }
 </style>
 ++++
 endif::[]
 
-// include::../README.adoc[tag=intro]
+include::../README.adoc[tag=intro]
 
 == License
 
-// include::../README.adoc[tag=license]
+include::../README.adoc[tag=license]
 
-== Features
+// == Features
 
 // include::../README.adoc[tag=features]
 
-== Using
+// == Using
 
 // include::../README.adoc[tag=using]
 
@@ -58,3 +64,6 @@ include::../include/bfg/tag_invoke.h[tag=reference]
 
 == Origins
 
+== Credits
+
+Rubber duck photo for logo comes from link:https://pixabay.com/users/armandoare1-7153816/[Arnando Are].

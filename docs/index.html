@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="copyright" content="Copyright 2020 René Ferdinand Rivera Morell">
-<title>Duck Dispatch&#8201;&#8212;&#8201;A C++11 Tag Invoke Utility</title>
+<title>Duck Invoke&#8201;&#8212;&#8201;tag_invoke for C++11</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -440,24 +440,23 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Duck Dispatch&#8201;&#8212;&#8201;A C++11 Tag Invoke Utility</h1>
+<h1>Duck Invoke&#8201;&#8212;&#8201;tag_invoke for C++11</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_license">1. License</a></li>
-<li><a href="#_features">2. Features</a></li>
-<li><a href="#_using">3. Using</a></li>
-<li><a href="#_reference">4. Reference</a>
+<li><a href="#_reference">2. Reference</a>
 <ul class="sectlevel2">
-<li><a href="#bfg_tag_invoke">4.1. <code>bfg::tag_invoke</code></a></li>
-<li><a href="#bfg_tag_invoke_result_t">4.2. <code>bfg::tag_invoke_result_t</code></a></li>
-<li><a href="#bfg_tag_invoke_is_nothrow">4.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
-<li><a href="#bfg_tag">4.4. <code>bfg::tag</code></a></li>
-<li><a href="#bfg_tag_invoke_v">4.5. <code>bfg::tag_invoke_v</code></a></li>
-<li><a href="#bfg_tag_invoke_def">4.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
+<li><a href="#bfg_tag_invoke">2.1. <code>bfg::tag_invoke</code></a></li>
+<li><a href="#bfg_tag_invoke_result_t">2.2. <code>bfg::tag_invoke_result_t</code></a></li>
+<li><a href="#bfg_tag_invoke_is_nothrow">2.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
+<li><a href="#bfg_tag">2.4. <code>bfg::tag</code></a></li>
+<li><a href="#bfg_tag_invoke_v">2.5. <code>bfg::tag_invoke_v</code></a></li>
+<li><a href="#bfg_tag_invoke_def">2.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
 </ul>
 </li>
-<li><a href="#_origins">5. Origins</a></li>
+<li><a href="#_origins">3. Origins</a></li>
+<li><a href="#_credits">4. Credits</a></li>
 </ul>
 </div>
 </div>
@@ -519,36 +518,73 @@ http://www.boost.org/LICENSE_1_0.txt)
 */
 #toctitle {
 	padding: 400px 0 0 0;
-	background: url(logo-color-300.png) no-repeat center/90%;
+	background: url(duck-logo-300px.png) no-repeat center/90%;
 	height: 0;
 	overflow: hidden;
+	text-align: center;
 }
 </style>
+<div class="paragraph tagline">
+<p>A simple to use, single header, <code>tag_invoke</code> utility for C++11.</p>
+</div>
+<div class="hdlist shields">
+<table>
+<tr>
+<td class="hdlist1">
+Obtain
+</td>
+<td class="hdlist2">
+<p><span class="image"><a class="image" href="https://github.com/bfgroup/Lyra/releases"><img src="https://img.shields.io/github/downloads/bfgroup/duck_invoke/total.svg?label=GitHub" alt="GitHub All Releases"></a></span></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+License
+</td>
+<td class="hdlist2">
+<p><span class="image"><a class="image" href="LICENSE.txt"><img src="https://img.shields.io/badge/license-BSL%201.0-blue.svg" alt="Boost Software License 1.0"></a></span></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Standards
+</td>
+<td class="hdlist2">
+<p><span class="image"><a class="image" href="https://github.com/vector-of-bool/pitchfork"><img src="https://img.shields.io/badge/standard-PFL-orange.svg" alt="Pitchfork Layout"></a></span>
+<span class="image"><a class="image" href="https://isocpp.org/"><img src="https://img.shields.io/badge/standard-C%2B%2B%2011-blue.svg?logo=C%2B%2B" alt="C\\ 11"></a></span>
+<span class="image"><a class="image" href="https://isocpp.org/"><img src="https://img.shields.io/badge/standard-C%2B%2B%2014-blue.svg?logo=C%2B%2B" alt="C\\ 14"></a></span>
+<span class="image"><a class="image" href="https://isocpp.org/"><img src="https://img.shields.io/badge/standard-C%2B%2B%2017-blue.svg?logo=C%2B%2B" alt="C\\ 17"></a></span>
+<span class="image"><a class="image" href="https://isocpp.org/"><img src="https://img.shields.io/badge/standard-C%2B%2B%2020-blue.svg?logo=C%2B%2B" alt="C\\ 20"></a></span></p>
+</td>
+</tr>
+<tr>
+<td class="hdlist1">
+Stats
+</td>
+<td class="hdlist2">
+<p><span class="image"><a class="image" href="https://github.com/bfgroup/duck_invoke"><img src="https://img.shields.io/github/languages/code-size/bfgroup/duck_invoke.svg" alt="GitHub code size in bytes"></a></span>
+<span class="image"><a class="image" href="https://github.com/bfgroup/duck_invoke/issues"><img src="https://img.shields.io/github/issues/bfgroup/duck_invoke.svg" alt="GitHub issues"></a></span>
+<span class="image"><a class="image" href="https://github.com/bfgroup/duck_invoke/stargazers"><img src="https://img.shields.io/github/stars/bfgroup/duck_invoke.svg?label=%E2%98%85" alt="GitHub stars"></a></span></p>
+</td>
+</tr>
+</table>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_license"><a class="anchor" href="#_license"></a>1. License</h2>
 <div class="sectionbody">
-
+<div class="paragraph">
+<p>Distributed under the Boost Software License, Version 1.0. (See accompanying
+file LICENSE.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" class="bare">http://www.boost.org/LICENSE_1_0.txt</a>)</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_features"><a class="anchor" href="#_features"></a>2. Features</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using"><a class="anchor" href="#_using"></a>3. Using</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reference"><a class="anchor" href="#_reference"></a>4. Reference</h2>
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>2. Reference</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>4.1. <code>bfg::tag_invoke</code></h3>
+<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>2.1. <code>bfg::tag_invoke</code></h3>
 <div class="paragraph">
 <p>The singleton function object that dispatches, through ADL, to the overload set
 of the specific customization point object tag by calling the unqualified
@@ -556,21 +592,21 @@ of the specific customization point object tag by calling the unqualified
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>4.2. <code>bfg::tag_invoke_result_t</code></h3>
+<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>2.2. <code>bfg::tag_invoke_result_t</code></h3>
 <div class="paragraph">
 <p>Obtains, for a customization point object type of <code>Tag</code> called wih the arguments
 <code>Args&#8230;&#8203;</code>, the result type of calling that CPO.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>4.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
+<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>2.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
 <div class="paragraph">
 <p>Detects if the call to the given customization point object, of type <code>Tag</code> and
 the argument types of <code>Args&#8230;&#8203;</code>, is marked <code>noexcept(true)</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>4.4. <code>bfg::tag</code></h3>
+<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>2.4. <code>bfg::tag</code></h3>
 <div class="paragraph">
 <p>The <code>bfg::tag</code> template defines the customization point object type. To use
 inherit from it with CRTP. For example:</p>
@@ -586,14 +622,14 @@ the <code>tag_invoke_v</code> utility.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>4.5. <code>bfg::tag_invoke_v</code></h3>
+<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>2.5. <code>bfg::tag_invoke_v</code></h3>
 <div class="paragraph">
 <p>The <code>tag_invoke_v</code> function obtains a reference to the customization point
 object singleton.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>4.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
+<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>2.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
 <div class="paragraph">
 <p>The <code>BFG_TAG_INVOKE_DEF(Tag)</code> macro defines the customization point object with
 a corresponding type. The argument is the name of the CPO to define the type
@@ -610,9 +646,17 @@ of the generated CPO will be the <code>Tag</code> post-fixed with <code>_t</code
 </div>
 </div>
 <div class="sect1">
-<h2 id="_origins"><a class="anchor" href="#_origins"></a>5. Origins</h2>
+<h2 id="_origins"><a class="anchor" href="#_origins"></a>3. Origins</h2>
 <div class="sectionbody">
 
+</div>
+</div>
+<div class="sect1">
+<h2 id="_credits"><a class="anchor" href="#_credits"></a>4. Credits</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Rubber duck photo for logo comes from <a href="https://pixabay.com/users/armandoare1-7153816/">Arnando Are</a>.</p>
+</div>
 </div>
 </div>
 </div>
