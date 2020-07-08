@@ -9,6 +9,8 @@ trigger:
     - develop
     - master
     - feature/*
+    exclude:
+    - gh-pages
   paths:
     exclude:
     - .circleci/*
