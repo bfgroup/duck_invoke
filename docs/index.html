@@ -445,18 +445,27 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#_license">1. License</a></li>
-<li><a href="#_reference">2. Reference</a>
+<li><a href="#_features">2. Features</a></li>
+<li><a href="#_using">3. Using</a>
 <ul class="sectlevel2">
-<li><a href="#bfg_tag_invoke">2.1. <code>bfg::tag_invoke</code></a></li>
-<li><a href="#bfg_tag_invoke_result_t">2.2. <code>bfg::tag_invoke_result_t</code></a></li>
-<li><a href="#bfg_tag_invoke_is_nothrow">2.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
-<li><a href="#bfg_tag">2.4. <code>bfg::tag</code></a></li>
-<li><a href="#bfg_tag_invoke_v">2.5. <code>bfg::tag_invoke_v</code></a></li>
-<li><a href="#bfg_tag_invoke_def">2.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
+<li><a href="#_simple">3.1. Simple</a></li>
+<li><a href="#_default_implementation_in_namespace">3.2. Default Implementation in Namespace</a></li>
+<li><a href="#_default_implementation_in_cpo">3.3. Default Implementation in CPO</a></li>
+<li><a href="#_multiple_defaults">3.4. Multiple Defaults</a></li>
 </ul>
 </li>
-<li><a href="#_origins">3. Origins</a></li>
-<li><a href="#_credits">4. Credits</a></li>
+<li><a href="#_reference">4. Reference</a>
+<ul class="sectlevel2">
+<li><a href="#bfg_tag_invoke">4.1. <code>bfg::tag_invoke</code></a></li>
+<li><a href="#bfg_tag_invoke_result_t">4.2. <code>bfg::tag_invoke_result_t</code></a></li>
+<li><a href="#bfg_tag_invoke_is_nothrow">4.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
+<li><a href="#bfg_tag">4.4. <code>bfg::tag</code></a></li>
+<li><a href="#bfg_tag_invoke_v">4.5. <code>bfg::tag_invoke_v</code></a></li>
+<li><a href="#bfg_tag_invoke_def">4.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
+</ul>
+</li>
+<li><a href="#_origins">5. Origins</a></li>
+<li><a href="#_credits">6. Credits</a></li>
 </ul>
 </div>
 </div>
@@ -581,10 +590,224 @@ file LICENSE.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt" class
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reference"><a class="anchor" href="#_reference"></a>2. Reference</h2>
+<h2 id="_features"><a class="anchor" href="#_features"></a>2. Features</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Header only with no external dependencies (except the <code>std</code> library).</p>
+</li>
+<li>
+<p>Single header, with included reference documentation.</p>
+</li>
+<li>
+<p>BSL 1.0 license, so it can be used anywhere.</p>
+</li>
+<li>
+<p>Gives equivalent functionality, with less user code, than current C++20
+<code>tag_invoke</code> implementations.</p>
+</li>
+<li>
+<p>For the most common, and basic, use case it&#8217;s a single line of code.</p>
+</li>
+<li>
+<p>Fully optimizes, with <code>-O2</code>, to equivalent direct code.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using"><a class="anchor" href="#_using"></a>3. Using</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>2.1. <code>bfg::tag_invoke</code></h3>
+<h3 id="_simple"><a class="anchor" href="#_simple"></a>3.1. Simple</h3>
+<div class="paragraph">
+<p>The simplest use case involves a few simple items:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The definition of the customization point object (CPO).</p>
+</li>
+<li>
+<p>Calling the CPO in a library that wants to be customized by users of it.</p>
+</li>
+<li>
+<p>Defining a customization in code that uses the library.</p>
+</li>
+<li>
+<p>Calling the library to use the feature that is customized.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>(1) With this library the definition of the CPO is a simple single declaration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cp">#include</span> <span class="tok-cpf">&lt;bfg/tag_invoke.h&gt;</span><span class="tok-cp"></span>
+
+<span class="tok-k">namespace</span> <span class="tok-n">compute</span> <span class="tok-p">{</span>
+
+<span class="tok-n">BFG_TAG_INVOKE_DEF</span><span class="tok-p">(</span><span class="tok-n">formula</span><span class="tok-p">);</span>
+
+<span class="tok-p">}</span> <span class="tok-c1">// namespace compute</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>That has the effect of declaring <code>compute::formula_t</code> for the CPO tag type.
+And defines a <code>compute::formula</code> CPO that can be called. And that is
+customizable through <code>tag_invoke</code> functions.</p>
+</div>
+<div class="paragraph">
+<p>(2) Using the CPO in the library code, or even in user code, is as simple as
+calling the CPO like a regular call:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">do_compute</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span> <span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">compute</span><span class="tok-o">::</span><span class="tok-n">formula</span><span class="tok-p">(</span><span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">);</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The key aspect for defining such code in libraries is that you need to accept
+an argument for which the type is used for argument dependent lookup (ADL)
+resolution. In this example the <code>const Compute &amp; c</code> argument will do that for
+us.</p>
+</div>
+<div class="paragraph">
+<p>(3) We can now turn our attention to the user code of the above "library". For
+that we need to crete an object that provides a customization of the
+appropriate customization point. The most effective way to do that is with a
+hidden friend function:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-k">struct</span> <span class="tok-n">custom_compute</span>
+<span class="tok-p">{</span>
+<span class="tok-k">private</span><span class="tok-o">:</span>
+	<span class="tok-k">friend</span> <span class="tok-kt">float</span>
+		<span class="tok-n">tag_invoke</span><span class="tok-p">(</span><span class="tok-n">compute</span><span class="tok-o">::</span><span class="tok-n">formula_t</span><span class="tok-p">,</span> <span class="tok-k">const</span> <span class="tok-n">custom_compute</span> <span class="tok-o">&amp;</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+	<span class="tok-p">{</span>
+		<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">*</span> <span class="tok-n">b</span><span class="tok-p">;</span>
+	<span class="tok-p">}</span>
+<span class="tok-p">};</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The arguments match the use of the CPO in the library, plus the tag type of
+the CPO as the first argument. That argument is what puts the customization
+within the realm of ADL.</p>
+</div>
+<div class="paragraph">
+<p>(4) Finally we can use the library and the customization we created for it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-kt">int</span> <span class="tok-nf">main</span><span class="tok-p">()</span>
+<span class="tok-p">{</span>
+	<span class="tok-n">do_compute</span><span class="tok-p">(</span><span class="tok-n">custom_compute</span><span class="tok-p">{},</span> <span class="tok-mi">2</span><span class="tok-p">,</span> <span class="tok-mi">3</span><span class="tok-p">);</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_implementation_in_namespace"><a class="anchor" href="#_default_implementation_in_namespace"></a>3.2. Default Implementation in Namespace</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cp">#include</span> <span class="tok-cpf">&lt;bfg/tag_invoke.h&gt;</span><span class="tok-cp"></span>
+
+<span class="tok-k">namespace</span> <span class="tok-n">compute</span> <span class="tok-p">{</span>
+
+<span class="tok-n">BFG_TAG_INVOKE_DEF</span><span class="tok-p">(</span><span class="tok-n">formula</span><span class="tok-p">);</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">tag_invoke</span><span class="tok-p">(</span><span class="tok-n">formula_t</span><span class="tok-p">,</span> <span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-n">b</span><span class="tok-p">;</span>
+<span class="tok-p">}</span>
+
+<span class="tok-p">}</span> <span class="tok-c1">// namespace compute</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">do_compute</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span> <span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">compute</span><span class="tok-o">::</span><span class="tok-n">formula</span><span class="tok-p">(</span><span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">);</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_default_implementation_in_cpo"><a class="anchor" href="#_default_implementation_in_cpo"></a>3.3. Default Implementation in CPO</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cp">#include</span> <span class="tok-cpf">&lt;bfg/tag_invoke.h&gt;</span><span class="tok-cp"></span>
+
+<span class="tok-k">namespace</span> <span class="tok-n">compute</span> <span class="tok-p">{</span>
+
+<span class="tok-k">static</span> <span class="tok-k">struct</span> <span class="tok-n">formula_t</span> <span class="tok-k">final</span> <span class="tok-o">:</span> <span class="tok-o">::</span><span class="tok-n">bfg</span><span class="tok-o">::</span><span class="tok-n">tag</span><span class="tok-o">&lt;</span><span class="tok-n">formula_t</span><span class="tok-o">&gt;</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+	<span class="tok-k">friend</span> <span class="tok-kt">float</span> <span class="tok-n">tag_invoke</span><span class="tok-p">(</span><span class="tok-n">formula_t</span><span class="tok-p">,</span> <span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+	<span class="tok-p">{</span>
+		<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-n">b</span><span class="tok-p">;</span>
+	<span class="tok-p">}</span>
+<span class="tok-p">}</span> <span class="tok-k">const</span> <span class="tok-o">&amp;</span> <span class="tok-n">formula</span> <span class="tok-o">=</span> <span class="tok-o">::</span><span class="tok-n">bfg</span><span class="tok-o">::</span><span class="tok-n">tag_invoke_v</span><span class="tok-p">(</span><span class="tok-n">formula_t</span> <span class="tok-p">{});</span>
+
+<span class="tok-p">}</span> <span class="tok-c1">// namespace compute</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">do_compute</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span> <span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">compute</span><span class="tok-o">::</span><span class="tok-n">formula</span><span class="tok-p">(</span><span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">);</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_multiple_defaults"><a class="anchor" href="#_multiple_defaults"></a>3.4. Multiple Defaults</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="pygments highlight"><code data-lang="cpp"><span></span><span class="tok-cp">#include</span> <span class="tok-cpf">&lt;bfg/tag_invoke.h&gt;</span><span class="tok-cp"></span>
+
+<span class="tok-k">namespace</span> <span class="tok-n">compute</span> <span class="tok-p">{</span>
+
+<span class="tok-n">BFG_TAG_INVOKE_DEF</span><span class="tok-p">(</span><span class="tok-n">formula</span><span class="tok-p">);</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">tag_invoke</span><span class="tok-p">(</span><span class="tok-n">formula_t</span><span class="tok-p">,</span> <span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">float</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">+</span> <span class="tok-n">b</span><span class="tok-p">;</span>
+<span class="tok-p">}</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">unsigned</span> <span class="tok-kt">int</span>
+	<span class="tok-n">tag_invoke</span><span class="tok-p">(</span><span class="tok-n">formula_t</span><span class="tok-p">,</span> <span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span><span class="tok-p">,</span> <span class="tok-kt">unsigned</span> <span class="tok-kt">int</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-kt">unsigned</span> <span class="tok-kt">int</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">a</span> <span class="tok-o">|</span> <span class="tok-n">b</span><span class="tok-p">;</span>
+<span class="tok-p">}</span>
+
+<span class="tok-p">}</span> <span class="tok-c1">// namespace compute</span>
+
+<span class="tok-k">template</span> <span class="tok-o">&lt;</span><span class="tok-k">typename</span> <span class="tok-n">Compute</span><span class="tok-p">,</span> <span class="tok-k">typename</span> <span class="tok-n">Value</span><span class="tok-o">&gt;</span>
+<span class="tok-kt">float</span> <span class="tok-n">do_compute</span><span class="tok-p">(</span><span class="tok-k">const</span> <span class="tok-n">Compute</span> <span class="tok-o">&amp;</span> <span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-n">Value</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">Value</span> <span class="tok-n">b</span><span class="tok-p">)</span>
+<span class="tok-p">{</span>
+	<span class="tok-k">return</span> <span class="tok-n">compute</span><span class="tok-o">::</span><span class="tok-n">formula</span><span class="tok-p">(</span><span class="tok-n">c</span><span class="tok-p">,</span> <span class="tok-n">a</span><span class="tok-p">,</span> <span class="tok-n">b</span><span class="tok-p">);</span>
+<span class="tok-p">}</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>4. Reference</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>4.1. <code>bfg::tag_invoke</code></h3>
 <div class="paragraph">
 <p>The singleton function object that dispatches, through ADL, to the overload set
 of the specific customization point object tag by calling the unqualified
@@ -592,21 +815,21 @@ of the specific customization point object tag by calling the unqualified
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>2.2. <code>bfg::tag_invoke_result_t</code></h3>
+<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>4.2. <code>bfg::tag_invoke_result_t</code></h3>
 <div class="paragraph">
 <p>Obtains, for a customization point object type of <code>Tag</code> called wih the arguments
 <code>Args&#8230;&#8203;</code>, the result type of calling that CPO.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>2.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
+<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>4.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
 <div class="paragraph">
 <p>Detects if the call to the given customization point object, of type <code>Tag</code> and
 the argument types of <code>Args&#8230;&#8203;</code>, is marked <code>noexcept(true)</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>2.4. <code>bfg::tag</code></h3>
+<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>4.4. <code>bfg::tag</code></h3>
 <div class="paragraph">
 <p>The <code>bfg::tag</code> template defines the customization point object type. To use
 inherit from it with CRTP. For example:</p>
@@ -622,14 +845,14 @@ the <code>tag_invoke_v</code> utility.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>2.5. <code>bfg::tag_invoke_v</code></h3>
+<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>4.5. <code>bfg::tag_invoke_v</code></h3>
 <div class="paragraph">
 <p>The <code>tag_invoke_v</code> function obtains a reference to the customization point
 object singleton.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>2.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
+<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>4.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
 <div class="paragraph">
 <p>The <code>BFG_TAG_INVOKE_DEF(Tag)</code> macro defines the customization point object with
 a corresponding type. The argument is the name of the CPO to define the type
@@ -646,13 +869,13 @@ of the generated CPO will be the <code>Tag</code> post-fixed with <code>_t</code
 </div>
 </div>
 <div class="sect1">
-<h2 id="_origins"><a class="anchor" href="#_origins"></a>3. Origins</h2>
+<h2 id="_origins"><a class="anchor" href="#_origins"></a>5. Origins</h2>
 <div class="sectionbody">
 
 </div>
 </div>
 <div class="sect1">
-<h2 id="_credits"><a class="anchor" href="#_credits"></a>4. Credits</h2>
+<h2 id="_credits"><a class="anchor" href="#_credits"></a>6. Credits</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Rubber duck photo for logo comes from <a href="https://pixabay.com/users/armandoare1-7153816/">Arnando Are</a>.</p>

@@ -27,3 +27,96 @@ Distributed under the Boost Software License, Version 1.0. (See accompanying
 file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 
 // end::license[]
+
+== Features
+
+// tag::features[]
+
+* Header only with no external dependencies (except the `std` library).
+* Single header, with included reference documentation.
+* BSL 1.0 license, so it can be used anywhere.
+* Gives equivalent functionality, with less user code, than current C++20
+  `tag_invoke` implementations.
+* For the most common, and basic, use case it's a single line of code.
+* Fully optimizes, with `-O2`, to equivalent direct code.
+
+// end::features[]
+
+== Using
+
+// tag::using[]
+
+The simplest use case involves a few simple items:
+
+. The definition of the customization point object (CPO).
+. Calling the CPO in a library that wants to be customized by users of it.
+. Defining a customization in code that uses the library.
+. Calling the library to use the feature that is customized.
+
+(1) With this library the definition of the CPO is a simple single declaration:
+
+[source,cpp]
+----
+#include <bfg/tag_invoke.h>
+
+namespace compute {
+
+BFG_TAG_INVOKE_DEF(formula);
+
+} // namespace compute
+----
+
+That has the effect of declaring `compute::formula_t` for the CPO tag type.
+And defines a `compute::formula` CPO that can be called. And that is
+customizable through `tag_invoke` functions.
+
+(2) Using the CPO in the library code, or even in user code, is as simple as
+calling the CPO like a regular call:
+
+[source,cpp]
+----
+template <typename Compute>
+float do_compute(const Compute & c, float a, float b)
+{
+	return compute::formula(c, a, b);
+}
+----
+
+The key aspect for defining such code in libraries is that you need to accept
+an argument for which the type is used for argument dependent lookup (ADL)
+resolution. In this example the `const Compute & c` argument will do that for
+us.
+
+(3) We can now turn our attention to the user code of the above "library". For
+that we need to crete an object that provides a customization of the
+appropriate customization point. The most effective way to do that is with a
+hidden friend function:
+
+[source,cpp]
+----
+struct custom_compute
+{
+private:
+	friend float
+		tag_invoke(compute::formula_t, const custom_compute &, float a, float b)
+	{
+		return a * b;
+	}
+};
+----
+
+The arguments match the use of the CPO in the library, plus the tag type of
+the CPO as the first argument. That argument is what puts the customization
+within the realm of ADL.
+
+(4) Finally we can use the library and the customization we created for it:
+
+[source,cpp]
+----
+int main()
+{
+	do_compute(custom_compute{}, 2, 3);
+}
+----
+
+// end::using[]
