@@ -6,7 +6,7 @@
 A simple to use, single header, `tag_invoke` utility for C++11.
 
 [horizontal.shields]
-Obtain:: image:https://img.shields.io/github/downloads/bfgroup/duck_invoke/total.svg?label=GitHub[GitHub All Releases, link="https://github.com/bfgroup/Lyra/releases"]
+Obtain:: image:https://img.shields.io/github/downloads/bfgroup/duck_invoke/total.svg?label=GitHub[GitHub All Releases, link="https://github.com/bfgroup/duck_invoke/releases"]
 License:: image:https://img.shields.io/badge/license-BSL%201.0-blue.svg["Boost Software License 1.0", link="LICENSE.txt"]
 Standards:: image:https://img.shields.io/badge/standard-PFL-orange.svg["Pitchfork Layout", link="https://github.com/vector-of-bool/pitchfork"]
 image:https://img.shields.io/badge/standard-C%2B%2B%2011-blue.svg?logo=C%2B%2B["C\+\+ 11", link="https://isocpp.org/"]
