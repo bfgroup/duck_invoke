@@ -7,8 +7,17 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 using asciidoctor ;
 
+import path ;
+
 html index.html : index.adoc ;
 
 install html
     :   index.html
     :   <location>. ;
+
+if [ path.exists gh-pages/LICENSE.txt ]
+{
+    install gh-pages
+        :   index.html duck-logo-300px.png std.css
+        :   <location>gh-pages ;
+}
