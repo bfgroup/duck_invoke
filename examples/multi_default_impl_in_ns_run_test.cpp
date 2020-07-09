@@ -7,6 +7,19 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #include "mini_test.hpp"
 
+/* tag::example[]
+
+With CPOs and `tag_invoke` we are not limited to overloading for the object
+type argument. We can overload on any of the arguments to provide specific
+implementation customizations. With that we can also provide default
+implementations that use those other argument types. Having those additional
+default implementations is easily done by adding overloaded `tag_invoke`
+functions in the library.
+
+[source,cpp]
+----
+*/ // end::example[]
+
 // tag::example[]
 #include <bfg/tag_invoke.h>
 
@@ -36,6 +49,16 @@ float do_compute(const Compute & c, Value a, Value b)
 }
 
 // end::example[]
+
+/* tag::example[]
+----
+
+That shows how we can provide a different default algorithm if it's `float`-s
+or `unsigned int`-s we are accepting. The key difference to notice from other
+use cases is that now the API function, `do_compute`, needs to parameterize
+the types of the rest of the arguments as they aren't known ahead of time.
+
+*/ // end::example[]
 
 struct default_compute
 {};

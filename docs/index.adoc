@@ -66,10 +66,7 @@ include::../examples/default_impl_in_cpo_run_test.cpp[tag=example]
 
 === Multiple Defaults
 
-[source,cpp]
-----
 include::../examples/multi_default_impl_in_ns_run_test.cpp[tag=example]
-----
 
 == Reference
 
