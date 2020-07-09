@@ -7,6 +7,17 @@ http://www.boost.org/LICENSE_1_0.txt)
 
 #include "mini_test.hpp"
 
+/* tag::example[]
+
+The other option for defining a default customization implementation is to
+make it a hidden friend function. To do that we can't use the convenience
+`BFG_TAG_INVOKE_DEF` macro. Like the default implementation of the CPO in the
+namespace, the function is the same. Only the location changes.
+
+[source,cpp]
+----
+*/ // end::example[]
+
 // tag::example[]
 #include <bfg/tag_invoke.h>
 
@@ -30,6 +41,18 @@ float do_compute(const Compute & c, float a, float b)
 }
 
 // end::example[]
+
+/* tag::example[]
+----
+
+We now need to declare the CPO type and define the CPO ourselves. Fortunately
+all the work of the body for the CPO tag type is taken care of by the utility
+`bfg::tag` template. All we need to do in addition is to implement the hidden
+friend function `tag_invoke` and define the CPO itself. For that there's also
+a utility function, `bfg::tag_invoke_v`, that will return a reference to the
+tag specific singleton.
+
+*/ // end::example[]
 
 struct default_compute
 {};

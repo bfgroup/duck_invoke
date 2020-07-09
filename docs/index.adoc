@@ -58,17 +58,11 @@ include::../README.adoc[tag=using]
 
 === Default Implementation in Namespace
 
-[source,cpp]
-----
 include::../examples/default_impl_in_ns_run_test.cpp[tag=example]
-----
 
 === Default Implementation in CPO
 
-[source,cpp]
-----
 include::../examples/default_impl_in_cpo_run_test.cpp[tag=example]
-----
 
 === Multiple Defaults
 
