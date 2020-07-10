@@ -446,25 +446,25 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel1">
 <li><a href="#_license">1. License</a></li>
 <li><a href="#_features">2. Features</a></li>
-<li><a href="#_using">3. Using</a>
+<li><a href="#_introduction">3. Introduction</a></li>
+<li><a href="#_using">4. Using</a>
 <ul class="sectlevel2">
-<li><a href="#_simple">3.1. Simple</a></li>
-<li><a href="#_default_implementation_in_namespace">3.2. Default Implementation in Namespace</a></li>
-<li><a href="#_default_implementation_in_cpo">3.3. Default Implementation in CPO</a></li>
-<li><a href="#_multiple_defaults">3.4. Multiple Defaults</a></li>
+<li><a href="#_simple">4.1. Simple</a></li>
+<li><a href="#_default_implementation_in_namespace">4.2. Default Implementation in Namespace</a></li>
+<li><a href="#_default_implementation_in_cpo">4.3. Default Implementation in CPO</a></li>
+<li><a href="#_multiple_defaults">4.4. Multiple Defaults</a></li>
 </ul>
 </li>
-<li><a href="#_reference">4. Reference</a>
+<li><a href="#_reference">5. Reference</a>
 <ul class="sectlevel2">
-<li><a href="#bfg_tag_invoke">4.1. <code>bfg::tag_invoke</code></a></li>
-<li><a href="#bfg_tag_invoke_result_t">4.2. <code>bfg::tag_invoke_result_t</code></a></li>
-<li><a href="#bfg_tag_invoke_is_nothrow">4.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
-<li><a href="#bfg_tag">4.4. <code>bfg::tag</code></a></li>
-<li><a href="#bfg_tag_invoke_v">4.5. <code>bfg::tag_invoke_v</code></a></li>
-<li><a href="#bfg_tag_invoke_def">4.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
+<li><a href="#bfg_tag_invoke">5.1. <code>bfg::tag_invoke</code></a></li>
+<li><a href="#bfg_tag_invoke_result_t">5.2. <code>bfg::tag_invoke_result_t</code></a></li>
+<li><a href="#bfg_tag_invoke_is_nothrow">5.3. <code>bfg::tag_invoke_is_nothrow</code></a></li>
+<li><a href="#bfg_tag">5.4. <code>bfg::tag</code></a></li>
+<li><a href="#bfg_tag_invoke_v">5.5. <code>bfg::tag_invoke_v</code></a></li>
+<li><a href="#bfg_tag_invoke_def">5.6. <code>BFG_TAG_INVOKE_DEF</code></a></li>
 </ul>
 </li>
-<li><a href="#_origins">5. Origins</a></li>
 <li><a href="#_credits">6. Credits</a></li>
 </ul>
 </div>
@@ -623,10 +623,53 @@ Windows VisualStudio 2017 and 2019.</p>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using"><a class="anchor" href="#_using"></a>3. Using</h2>
+<h2 id="_introduction"><a class="anchor" href="#_introduction"></a>3. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This small library implements a recent variation of the old idea of tag
+dispatching in C++:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://www.boost.org/community/generic_programming.html#tag_dispatching">Boost C++ Libraries; Generic Programming Techniques, Tag Dispatching</a></p>
+</li>
+<li>
+<p><a href="https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Tag_Dispatching">WikiBooks; More C++ Idioms/Tag Dispatching</a></p>
+</li>
+<li>
+<p><a href="https://akrzemi1.wordpress.com/examples/overloading-tag-dispatch/">
+Andrzej Krzemienski; Overloading — Tag dispatch</a></p>
+</li>
+<li>
+<p><a href="https://www.fluentcpp.com/2018/04/27/tag-dispatching/">Fluent{C++} How to Use Tag Dispatching In Your Code Effectively</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It&#8217;s seen various uses over the ages. Some of which have been subsumed by
+<code>constexpr</code> constructs. This relatively new formulation attempts to solve the old
+generic programming problem of providing a way to customize some library
+functionality from the outside deep inside that library. The recent usage was
+introduced by the WG21 <a href="https://wg21.link/p1895r0">P1895</a> paper
+(tag_invoke: A general pattern for supporting customisable functions).</p>
+</div>
+<div class="paragraph">
+<p>This particular implementation was inspired by Gašper Ažman&#8217;s presentation;
+<a href="https://www.youtube.com/watch?v=T_bijOA1jts">'tag_invoke' - An Actually Good Way to Do Customization Points</a>.</p>
+</div>
+<div class="paragraph">
+<p>Like most techniques in C++, it&#8217;s only a tool. Once that can be both beneficial
+and dangerous depending on how it&#8217;s used. A goal of this utility, and the
+<code>tag_dispatch</code> approach is to reduce the dangers while keeping the benefits.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using"><a class="anchor" href="#_using"></a>4. Using</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_simple"><a class="anchor" href="#_simple"></a>3.1. Simple</h3>
+<h3 id="_simple"><a class="anchor" href="#_simple"></a>4.1. Simple</h3>
 <div class="paragraph">
 <p>The simplest use case involves a few simple items:</p>
 </div>
@@ -721,7 +764,7 @@ within the realm of ADL.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_default_implementation_in_namespace"><a class="anchor" href="#_default_implementation_in_namespace"></a>3.2. Default Implementation in Namespace</h3>
+<h3 id="_default_implementation_in_namespace"><a class="anchor" href="#_default_implementation_in_namespace"></a>4.2. Default Implementation in Namespace</h3>
 <div class="paragraph">
 <p>It&#8217;s possible to define a default implementation such that clients of the
 library don&#8217;t need to provide a customization. There is one concern when
@@ -762,7 +805,7 @@ differences stand out: 1) it&#8217;s a free function in same namespace as the CP
 </div>
 </div>
 <div class="sect2">
-<h3 id="_default_implementation_in_cpo"><a class="anchor" href="#_default_implementation_in_cpo"></a>3.3. Default Implementation in CPO</h3>
+<h3 id="_default_implementation_in_cpo"><a class="anchor" href="#_default_implementation_in_cpo"></a>4.3. Default Implementation in CPO</h3>
 <div class="paragraph">
 <p>The other option for defining a default customization implementation is to
 make it a hidden friend function. To do that we can&#8217;t use the convenience
@@ -803,7 +846,7 @@ tag specific singleton.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_multiple_defaults"><a class="anchor" href="#_multiple_defaults"></a>3.4. Multiple Defaults</h3>
+<h3 id="_multiple_defaults"><a class="anchor" href="#_multiple_defaults"></a>4.4. Multiple Defaults</h3>
 <div class="paragraph">
 <p>With CPOs and <code>tag_invoke</code> we are not limited to overloading for the object
 type argument. We can overload on any of the arguments to provide specific
@@ -852,10 +895,10 @@ the types of the rest of the arguments as they aren&#8217;t known ahead of time.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_reference"><a class="anchor" href="#_reference"></a>4. Reference</h2>
+<h2 id="_reference"><a class="anchor" href="#_reference"></a>5. Reference</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>4.1. <code>bfg::tag_invoke</code></h3>
+<h3 id="bfg_tag_invoke"><a class="anchor" href="#bfg_tag_invoke"></a>5.1. <code>bfg::tag_invoke</code></h3>
 <div class="paragraph">
 <p>The singleton function object that dispatches, through ADL, to the overload set
 of the specific customization point object tag by calling the unqualified
@@ -863,21 +906,21 @@ of the specific customization point object tag by calling the unqualified
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>4.2. <code>bfg::tag_invoke_result_t</code></h3>
+<h3 id="bfg_tag_invoke_result_t"><a class="anchor" href="#bfg_tag_invoke_result_t"></a>5.2. <code>bfg::tag_invoke_result_t</code></h3>
 <div class="paragraph">
 <p>Obtains, for a customization point object type of <code>Tag</code> called wih the arguments
 <code>Args&#8230;&#8203;</code>, the result type of calling that CPO.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>4.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
+<h3 id="bfg_tag_invoke_is_nothrow"><a class="anchor" href="#bfg_tag_invoke_is_nothrow"></a>5.3. <code>bfg::tag_invoke_is_nothrow</code></h3>
 <div class="paragraph">
 <p>Detects if the call to the given customization point object, of type <code>Tag</code> and
 the argument types of <code>Args&#8230;&#8203;</code>, is marked <code>noexcept(true)</code>.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>4.4. <code>bfg::tag</code></h3>
+<h3 id="bfg_tag"><a class="anchor" href="#bfg_tag"></a>5.4. <code>bfg::tag</code></h3>
 <div class="paragraph">
 <p>The <code>bfg::tag</code> template defines the customization point object type. To use
 inherit from it with CRTP. For example:</p>
@@ -893,14 +936,14 @@ the <code>tag_invoke_v</code> utility.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>4.5. <code>bfg::tag_invoke_v</code></h3>
+<h3 id="bfg_tag_invoke_v"><a class="anchor" href="#bfg_tag_invoke_v"></a>5.5. <code>bfg::tag_invoke_v</code></h3>
 <div class="paragraph">
 <p>The <code>tag_invoke_v</code> function obtains a reference to the customization point
 object singleton.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>4.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
+<h3 id="bfg_tag_invoke_def"><a class="anchor" href="#bfg_tag_invoke_def"></a>5.6. <code>BFG_TAG_INVOKE_DEF</code></h3>
 <div class="paragraph">
 <p>The <code>BFG_TAG_INVOKE_DEF(Tag)</code> macro defines the customization point object with
 a corresponding type. The argument is the name of the CPO to define the type
@@ -914,12 +957,6 @@ of the generated CPO will be the <code>Tag</code> post-fixed with <code>_t</code
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_origins"><a class="anchor" href="#_origins"></a>5. Origins</h2>
-<div class="sectionbody">
-
 </div>
 </div>
 <div class="sect1">

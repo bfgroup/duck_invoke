@@ -50,6 +50,31 @@ include::../README.adoc[tag=license]
 
 include::../README.adoc[tag=features]
 
+== Introduction
+
+This small library implements a recent variation of the old idea of tag
+dispatching in C++:
+
+* link:https://www.boost.org/community/generic_programming.html#tag_dispatching[Boost C++ Libraries; Generic Programming Techniques, Tag Dispatching]
+* link:https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Tag_Dispatching[WikiBooks; More C++ Idioms/Tag Dispatching]
+* link:https://akrzemi1.wordpress.com/examples/overloading-tag-dispatch/[
+Andrzej Krzemienski; Overloading — Tag dispatch]
+* link:https://www.fluentcpp.com/2018/04/27/tag-dispatching/[Fluent{C++} How to Use Tag Dispatching In Your Code Effectively]
+
+It's seen various uses over the ages. Some of which have been subsumed by
+`constexpr` constructs. This relatively new formulation attempts to solve the old
+generic programming problem of providing a way to customize some library
+functionality from the outside deep inside that library. The recent usage was
+introduced by the WG21 link:https://wg21.link/p1895r0[P1895] paper
+(tag_invoke: A general pattern for supporting customisable functions).
+
+This particular implementation was inspired by Gašper Ažman's presentation;
+link:https://www.youtube.com/watch?v=T_bijOA1jts['tag_invoke' - An Actually Good Way to Do Customization Points].
+
+Like most techniques in C++, it's only a tool. Once that can be both beneficial
+and dangerous depending on how it's used. A goal of this utility, and the
+`tag_dispatch` approach is to reduce the dangers while keeping the benefits.
+
 == Using
 
 === Simple
@@ -75,8 +100,6 @@ include::../examples/multi_default_impl_in_ns_run_test.cpp[tag=example]
 include::../include/bfg/tag_invoke.h[tag=reference]
 
 :leveloffset: -2
-
-== Origins
 
 == Credits
 
