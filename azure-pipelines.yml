@@ -7,7 +7,7 @@ trigger:
   branches:
     include:
     - develop
-    - master
+    - release
     - feature/*
     exclude:
     - gh-pages
