@@ -186,7 +186,7 @@ stages:
           TOOLSET: msvc, TOOLSET_VERSION: '14.2', CXXSTD: "latest" }
         # VS 2017: {
         #   VSWHERE_VERSION: '[15.0,16.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'vs2017-win2016',
-        #   TOOLSET: msvc, TOOLSET_VERSION: '14.1' }
+        #   TOOLSET: msvc, TOOLSET_VERSION: '14.1', CXXSTD: "latest" }
     pool:
       vmImage: $(VM_IMAGE)
     steps:
@@ -210,7 +210,7 @@ stages:
         b2.exe install b2-install-layout=portable --prefix=%BUILD_SOURCESDIRECTORY%/../bin
       displayName: Install B2
     - script: |
-        %BUILD_SOURCESDIRECTORY%/../bin/b2.exe toolset=%TOOLSET% cxxstd=${CXXSTD} ${B2_ARGS} examples
+        %BUILD_SOURCESDIRECTORY%/../bin/b2.exe toolset=%TOOLSET% cxxstd=%CXXSTD% %B2_ARGS% examples
       displayName: Test
 
   - job: 'MinGW'
