@@ -40,7 +40,7 @@ file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 * For the most common, and basic, use case it's a single line of code.
 * Fully optimizes, with `-O2`, to equivalent direct code.
 * Tested to work with: Linux GCC 4.8 through 10; Linux Clang 3.8 through 11;
-  macOS Xcode 10.1 through 12.2; Windows MinGW-w64 7.3 and 6.3;
+  macOS Xcode 11.2.1 through 12.2; Windows MinGW-w64 7.3 and 6.3;
   Windows 2019 (currently only works with `/std:c++latest` option).
 
 // end::features[]
