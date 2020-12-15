@@ -9,7 +9,7 @@ import testing ;
 
 run otherlib.cpp ;
 lib tu_one_two : tu_one.cpp tu_two.cpp ;
-run tu_main.cpp tu_one_two ;
+run tu_main.cpp tu_one_two/<link>static ;
 
 for local test in [ glob *_run_test.cpp ]
 {

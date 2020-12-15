@@ -45,7 +45,7 @@ unsigned int
 template <typename Compute, typename Value>
 float do_compute(const Compute & c, Value a, Value b)
 {
-	return compute::formula(c, a, b);
+	return float(compute::formula(c, a, b));
 }
 
 // end::example[]
