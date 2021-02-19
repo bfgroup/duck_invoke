@@ -9,6 +9,7 @@ trigger:
     - develop
     - release
     - feature/*
+    - issue/*
     exclude:
     - gh-pages
   paths:
