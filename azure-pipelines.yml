@@ -169,9 +169,18 @@ stages:
   - job: 'Visual_Studio'
     strategy:
       matrix:
-        VS 2019: {
+        VS 2019 (C++latest): {
           VSWHERE_VERSION: '[16.0,17.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'windows-2019',
           TOOLSET: msvc, TOOLSET_VERSION: '14.2', CXXSTD: "latest" }
+        VS 2019 (C++17): {
+          VSWHERE_VERSION: '[16.0,17.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'windows-2019',
+          TOOLSET: msvc, TOOLSET_VERSION: '14.2', CXXSTD: "17" }
+        VS 2019 (C++14): {
+          VSWHERE_VERSION: '[16.0,17.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'windows-2019',
+          TOOLSET: msvc, TOOLSET_VERSION: '14.2', CXXSTD: "14" }
+        VS 2019 (C++11): {
+          VSWHERE_VERSION: '[16.0,17.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'windows-2019',
+          TOOLSET: msvc, TOOLSET_VERSION: '14.2', CXXSTD: "11" }
         # VS 2017: {
         #   VSWHERE_VERSION: '[15.0,16.0)', CXX: cl.exe, PLATFORM: x64, VM_IMAGE: 'vs2017-win2016',
         #   TOOLSET: msvc, TOOLSET_VERSION: '14.1', CXXSTD: "latest" }
