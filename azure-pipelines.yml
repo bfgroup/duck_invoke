@@ -115,6 +115,12 @@ stages:
   - job: 'Xcode'
     strategy:
       matrix:
+        Xcode 12.4: {
+          CXX: clang++, VM_IMAGE: 'macOS-10.15', XCODE_VERSION: "12.4",
+          TOOLSET: clang, CXXSTD: "11,14,17,2a" }
+        Xcode 12.3: {
+          CXX: clang++, VM_IMAGE: 'macOS-10.15', XCODE_VERSION: "12.3",
+          TOOLSET: clang, CXXSTD: "11,14,17,2a" }
         Xcode 12.2: {
           CXX: clang++, VM_IMAGE: 'macOS-10.15', XCODE_VERSION: "12.2",
           TOOLSET: clang, CXXSTD: "11,14,17,2a" }
@@ -145,17 +151,15 @@ stages:
     - bash: |
         set -e
         uname -a
-        export 'XCODE_INSTALL_USER=$(DEV_APPLE_USER)'
-        export 'XCODE_INSTALL_PASSWORD=$(DEV_APPLE_PASSWORD)'
         ./.ci/macos-xcode-install.sh
         ${CXX} --version
       displayName: Install Toolset
     - bash: |
         set -e
         pushd ..
-        wget "https://github.com/boostorg/build/archive/develop.zip" -O b2.zip
+        wget "https://github.com/bfgroup/b2/archive/release.zip" -O b2.zip
         unzip b2.zip
-        cd build-develop
+        cd b2-release
         CXX= ./bootstrap.sh clang
         CXX= sudo ./b2 install b2-install-layout=portable --prefix=/usr/local/bin
         popd
