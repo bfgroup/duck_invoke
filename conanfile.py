@@ -28,6 +28,8 @@ class DuckInvokeConan(ConanFile):
                   strip_root=True, destination=self.source_subfolder)
 
     def package(self):
+        self.copy(pattern="LICENSE.txt", dst="licenses",
+                  src=self.source_subfolder)
         self.copy(pattern="*.h", dst="include",
                   src=os.path.join(self.source_subfolder, "include"))
 
