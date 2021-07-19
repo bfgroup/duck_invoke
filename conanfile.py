@@ -10,9 +10,6 @@ from conans import ConanFile, tools
 import os
 
 
-required_conan_version = ">=1.32.0"
-
-
 class DuckInvokeConan(ConanFile):
     name = "duck_invoke"
     homepage = "https://www.bfgroup.xyz/duck_invoke/"
