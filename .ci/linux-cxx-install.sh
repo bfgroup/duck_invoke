@@ -17,7 +17,7 @@ fi
 echo ">>>>>"
 echo ">>>>> APT: UPDATE.."
 echo ">>>>>"
-sudo -E apt-get -o Acquire::Retries=3 update
+sudo -E apt-get -o Acquire::Retries=3 -o Acquire::https::No-Cache=True -o Acquire::http::No-Cache=True update
 echo ">>>>>"
 echo ">>>>> APT: INSTALL ${PACKAGES}.."
 echo ">>>>>"
