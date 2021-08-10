@@ -10,7 +10,7 @@ from conans import ConanFile, tools
 import os
 
 
-class DuckInvokeConan(ConanFile):
+class Package(ConanFile):
     name = "duck_invoke"
     homepage = "https://www.bfgroup.xyz/duck_invoke/"
     description = '''A simple to use, single header, tag_invoke utility for C++11.'''
@@ -117,24 +117,26 @@ int main()
 	do_compute(custom_compute{}, 2, 3);
 }
 ----
-        '''
+'''
         }
     }
     source_subfolder = "source_subfolder"
-    no_copy_source = True
 
     def source(self):
         tools.get(
             **self.conan_data["sources"][self.version],
             strip_root=True, destination=self.source_subfolder)
 
+    no_copy_source = True
+
+    def package_id(self):
+        self.info.header_only()
+
     def package(self):
         self.copy(
             pattern="LICENSE.txt", dst="licenses",
             src=self.source_subfolder)
-        self.copy(
-            pattern="*.h", dst="include",
-            src=os.path.join(self.source_subfolder, "include"))
-
-    def package_id(self):
-        self.info.header_only()
+        for pattern in ["*.h", "*.hpp", "*.hxx"]:
+            self.copy(
+                pattern=pattern, dst="include",
+                src=os.path.join(self.source_subfolder, "include"))
