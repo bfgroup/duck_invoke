@@ -124,14 +124,17 @@ int main()
     no_copy_source = True
 
     def source(self):
-        tools.get(**self.conan_data["sources"][self.version],
-                  strip_root=True, destination=self.source_subfolder)
+        tools.get(
+            **self.conan_data["sources"][self.version],
+            strip_root=True, destination=self.source_subfolder)
 
     def package(self):
-        self.copy(pattern="LICENSE.txt", dst="licenses",
-                  src=self.source_subfolder)
-        self.copy(pattern="*.h", dst="include",
-                  src=os.path.join(self.source_subfolder, "include"))
+        self.copy(
+            pattern="LICENSE.txt", dst="licenses",
+            src=self.source_subfolder)
+        self.copy(
+            pattern="*.h", dst="include",
+            src=os.path.join(self.source_subfolder, "include"))
 
     def package_id(self):
         self.info.header_only()
