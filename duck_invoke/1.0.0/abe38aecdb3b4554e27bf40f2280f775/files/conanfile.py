@@ -1,0 +1,142 @@
+'''
+@author: René Ferdinand Rivera Morell
+@copyright: Copyright René Ferdinand Rivera Morell 2021
+@license:
+    Distributed under the Boost Software License, Version 1.0.
+    (See accompanying file LICENSE_1_0.txt or copy at
+    http://www.boost.org/LICENSE_1_0.txt)
+'''
+from conans import ConanFile, tools
+import os
+
+
+class Package(ConanFile):
+    name = "duck_invoke"
+    homepage = "https://www.bfgroup.xyz/duck_invoke/"
+    description = '''A simple to use, single header, tag_invoke utility for C++11.'''
+    topics = ("header", 'header-only', "cross-platform", "c++11")
+    license = "BSL-1.0"
+    url = "https://github.com/bfgroup/duck_invoke"
+    barbarian = {
+        "description": {
+            "format": "asciidoc",
+            "text": '''\
+= Duck Invoke
+
+A simple to use, single header, `tag_invoke` utility for C++11.
+
+== License
+
+Distributed under the Boost Software License, Version 1.0. (See accompanying
+file LICENSE.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+== Features
+
+* Header only with no external dependencies (except the `std` library).
+* Single header, with included reference documentation.
+* BSL 1.0 license, so it can be used anywhere.
+* Gives equivalent functionality, with less user code, than current C++20
+  `tag_invoke` implementations.
+* For the most common, and basic, use case it's a single line of code.
+* Fully optimizes, with `-O2`, to equivalent direct code.
+* Tested to work with: Linux GCC 4.8 through 10; Linux Clang 3.8 through 11;
+  macOS Xcode 11.2.1 through 12.2; Windows MinGW-w64 7.3 and 6.3;
+  Windows 2019 (currently only works with `/std:c++latest` option).
+
+== Using
+
+The simplest use case involves a few simple items:
+
+. The definition of the customization point object (CPO).
+. Calling the CPO in a library that wants to be customized by users of it.
+. Defining a customization in code that uses the library.
+. Calling the library to use the feature that is customized.
+
+(1) With this library the definition of the CPO is a simple single declaration:
+
+[source,cpp]
+----
+#include <bfg/tag_invoke.h>
+
+namespace compute {
+
+BFG_TAG_INVOKE_DEF(formula);
+
+} // namespace compute
+----
+
+That has the effect of declaring `compute::formula_t` for the CPO tag type.
+And defines a `compute::formula` CPO that can be called. And that is
+customizable through `tag_invoke` functions.
+
+(2) Using the CPO in the library code, or even in user code, is as simple as
+calling the CPO like a regular call:
+
+[source,cpp]
+----
+template <typename Compute>
+float do_compute(const Compute & c, float a, float b)
+{
+	return compute::formula(c, a, b);
+}
+----
+
+The key aspect for defining such code in libraries is that you need to accept
+an argument for which the type is used for argument dependent lookup (ADL)
+resolution. In this example the `const Compute & c` argument will do that for
+us.
+
+(3) We can now turn our attention to the user code of the above "library". For
+that we need to create an object that provides a customization of the
+appropriate customization point. The most effective way to do that is with a
+hidden friend function:
+
+[source,cpp]
+----
+struct custom_compute
+{
+private:
+	friend float
+		tag_invoke(compute::formula_t, const custom_compute &, float a, float b)
+	{
+		return a * b;
+	}
+};
+----
+
+The arguments match the use of the CPO in the library, plus the tag type of
+the CPO as the first argument. That argument is what puts the customization
+within the realm of ADL.
+
+(4) Finally we can use the library and the customization we created for it:
+
+[source,cpp]
+----
+int main()
+{
+	do_compute(custom_compute{}, 2, 3);
+}
+----
+'''
+        }
+    }
+    source_subfolder = "source_subfolder"
+
+    def source(self):
+        tools.get(
+            **self.conan_data["sources"][self.version],
+            strip_root=True, destination=self.source_subfolder)
+
+    no_copy_source = True
+
+    def package_id(self):
+        self.info.header_only()
+
+    def package(self):
+        self.copy(
+            pattern="LICENSE.txt", dst="licenses",
+            src=self.source_subfolder)
+        for pattern in ["*.h", "*.hpp", "*.hxx"]:
+            self.copy(
+                pattern=pattern, dst="include",
+                src=os.path.join(self.source_subfolder, "include"))
