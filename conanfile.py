@@ -18,14 +18,9 @@ class Package(ConanFile):
     license = "BSL-1.0"
     url = "https://github.com/bfgroup/duck_invoke"
     barbarian = {
-        "description": {
-            "format": "asciidoc",
-            "file": "README_CONAN.adoc"
-        }
+        "description": {"format": "asciidoc", "file": "README_CONAN.adoc"}
     }
-    exports = [
-        "README_CONAN.adoc"
-    ]
+    exports = "README_CONAN.adoc"
     source_subfolder = "source_subfolder"
 
     def source(self):
