@@ -94,3 +94,4 @@ int main()
 	do_compute(custom_compute{}, 2, 3);
 }
 ----
+
