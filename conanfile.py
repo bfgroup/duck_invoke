@@ -14,7 +14,7 @@ class Package(ConanFile):
     name = "duck_invoke"
     homepage = "https://www.bfgroup.xyz/duck_invoke/"
     description = '''A simple to use, single header, tag_invoke utility for C++11.'''
-    topics = ("header", 'header-only', "cross-platform", "c++11")
+    topics = ("header", 'header-only', "cross-platform", "c++11", "tag_invoke")
     license = "BSL-1.0"
     url = "https://github.com/bfgroup/duck_invoke"
     barbarian = {
